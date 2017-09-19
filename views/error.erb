@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>IdeaBox Error</title>
+  </head>
+  <body>
+    <h1>An Error Occured</h1>
+
+    <h3>Params</h3>
+    <table>
+      <tr>
+        <th>Request Verb</th>
+        <td><%= request.request_method %></td>
+        <!-- the above shows you the route method that you have yet to define in your app.rb-->
+      </tr>
+      <tr>
+        <th>Request Path</th>
+        <td><%= request.path %></td>
+        <!-- the above shows you the path that you are yet to define in your app.rb-->
+      </tr
+      <tr>
+        <th colspan=2>Parameters</th>
+      </tr>
+      <% request.params.each do |key, value| %>
+      <!-- this code above itterates through the params hash, which is where the form data is stored in sinatra. The keys derive their name from the name attributes we defined in the html for the inputs. The values derive from whatever we type in-->
+        <tr>
+          <td><%= key %></td>
+          <!-- so params hash looks like this with our example params = {"boat" => "buy a mangusta"} so the key is boat--> 
+          <td><%= value %></td>
+          <!-- so params hash looks like this with our example params = {"boat" => "buy a mangusta"} so the value is buy a mangusta--> 
+        </tr>
+      <% end %>
+    </table>
+  </body>
+</html>

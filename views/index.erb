@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>Ideabox2</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+  <body>
+    <h1 align = "center">IdeaBox2</h1>
+    <form action='/' method='POST'>
+      <p>
+        Your Idea:
+      </p>
+      <input class = "form-control" type='text' name='idea_title' placeholder = "Idea title please"/><br/>
+      <textarea class = "form-control" name='idea_description' placeholder = "Description of your idea please"></textarea><br/>
+      <div align = "center"><input class = "btn btn-info" type='submit'/></div>
+      <!-- notice when you click on the above button you are creating post request, you havent yet defined this in the app.rb file --> 
+    </form>
+    
+    
+    <h3 align = "center">Existing Ideas</h3>
+
+    <ul>
+      <% ideas.each_with_index do |idea,id| %>
+      <!-- the above takes the database that is effectively an array called ideas and itterates over each idea in it. Note the ideas array has hashes inside.-->
+      <!-- so ideas = [{"diet" => "pizza all the time", "boat" => "buy a mangusta"} and each |idea| is made up of the title and the description i.e. "diet" and "pizza all the time"-->
+      <!-- but you need to make the ideas array accessible in this template, you do this by telling sinatra to include it as a local variable when we render the erb :index template--> 
+      <!-- in the above we changed it to ideas.each_with-index so we can target a sepcific idea for deletion. This gives us the index of the id and stores it as a variable id --> 
+        <li>
+          <%= idea.title %> (<%= id %>)<br/>
+          <!--issue here is that the template is trying to call the title method on what it gets back from Idea.all but .all returns a collection of hashses.-->
+          <!--the hashes have a key :title but not a method .title --> 
+          <%= idea.description %>
+          <a href="/<%= id %>/edit"><i class = "fa fa-pencil-square-o" aria-hidden = "true"></i>Edit</a>
+          <!--now we have an edit link that will go to a route /<id>/edit ... but we need to define this route-->
+          <form action = "/<%= id %>" method = "POST">
+              <input type = "hidden" name = "_method" value = "DELETE">
+              <input class = "btn btn-danger" type = "submit" value = "delete">
+              <!-- notice in the above form you give it an action of post even though you really want to delete, must tell sinatra this. You then overide this with the hidden input. -->
+              <!-- in app.rb you have to make the corresponding delete route to handle this--> 
+          </form>
+        </li>
+      <% end %>
+    </ul>
+    
+    
+  </body>
+</html>

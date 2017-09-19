@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>IdeaBox</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <h1 align = "center">IdeaBox</h1>
+
+    <form action="/<%= id %>" method="POST">
+        <!--notice how there is a reference to id above. But unless it is told edit.erb does not know that this variable exists. You have to tell it in app.rb to pass this variable to the edit.erb with locals: {id: id}--> 
+      <p>
+        Edit your Idea:
+      </p>
+      <input type="hidden" name="_method" value="PUT" />
+      <!-- notice how above even though we give the form an action of POST we use the hidden input type to show that this is actually a post action--> 
+      <input class = "form-control" type='text' name='idea_title' value="<%= idea.title %>"/><br/>
+      <!--notice how the text input is going to already have as its value the idea title, but I think you need to tell the app.rb file that this template is going to have access to the idea class and .title method--> 
+      <!--notice how to start with you are trying to call idea.title but the edit template does not have a thing names idea. To solve this you need to get idea from the database and pass it the edit template as a local varaible--> 
+      <textarea class = "form-control" name='idea_description'><%= idea.description %></textarea><br/>
+      <!--notice how above the text area input space is going to be pre filled with the information from idea.description--> 
+      <div align = "center">
+        <input class = "btn btn-info" type='submit'/>
+      </div>
+    </form>
+    <!-- you havent yet defined a put route for this form so if you try and edit an idea it will throw an error --> 
+  </body>
+</html>
